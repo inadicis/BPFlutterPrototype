@@ -11,18 +11,18 @@ class InventoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> rows = [];
     inventory.forEach((key, value) {
-      rows.add(InventoryRow(itemName: key, itemAmount: value, itemImage: 'random',));
+      rows.add(InventoryRow(
+        itemName: key,
+        itemAmount: value,
+        itemImage: 'random',
+      ));
     });
-
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Inventory'),
       ),
-      body: Column(
-        children: rows
-      ),
-
+      body: Column(children: rows),
     );
   }
 }
