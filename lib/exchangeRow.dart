@@ -2,50 +2,52 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ExchangeRow extends StatefulWidget {
-  final int initialLeftAmount;
-  final int initialRightAmount;
+  Map<String, int> leftInventory;
+  Map<String, int> rightInventory;
   final String itemName;
 
-  ExchangeRow(
-      {@required this.itemName,
-      this.initialLeftAmount,
-      this.initialRightAmount});
+  ExchangeRow({
+    @required this.itemName,
+    @required this.leftInventory,
+    @required this.rightInventory,
+  });
 
   @override
   _ExchangeRowState createState() => _ExchangeRowState();
 }
 
 class _ExchangeRowState extends State<ExchangeRow> {
-  int _leftAmount;
-  int _rightAmount;
+  Map<String, int> leftInventory;
+  Map<String, int> rightInventory;
 
   final counterTextStyle = TextStyle(
       fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black54);
   final itemTextStyle = TextStyle(
       fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black54);
 
-  void incrementRight() {
+  void incrementRight(String key) {
     setState(() {
-      if (_leftAmount > 0) {
-        _rightAmount++;
-        _leftAmount--;
+      if (leftInventory[key] > 0) {
+        rightInventory[key]++;
+        leftInventory[key]--;
       }
     });
   }
 
-  void incrementLeft() {
+  void incrementLeft(String key) {
     setState(() {
-      if (_rightAmount > 0) {
-        _rightAmount--;
-        _leftAmount++;
+      if (rightInventory[key] > 0) {
+        rightInventory[key]--;
+        leftInventory[key]++;
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _leftAmount ??= widget.initialLeftAmount ?? 0;
-    _rightAmount ??= widget.initialRightAmount ?? 0;
+    rightInventory ??= widget.rightInventory;
+    leftInventory ??= widget.leftInventory;
+
 
     return Container(
       width: double.infinity,
@@ -59,7 +61,7 @@ class _ExchangeRowState extends State<ExchangeRow> {
             flex: 1,
             child: Container(
               child: Text(
-                _leftAmount.toString(),
+                leftInventory[widget.itemName].toString(),
                 style: counterTextStyle,
                 textAlign: TextAlign.center,
               ),
@@ -70,10 +72,10 @@ class _ExchangeRowState extends State<ExchangeRow> {
             flex: 5,
             child: ListTile(
               leading: IconButton(
-                onPressed: _rightAmount <= 0 ? null : incrementLeft,
+                onPressed: rightInventory[widget.itemName] <= 0 ? null : () => incrementLeft(widget.itemName),
                 icon: Icon(Icons.add_circle_outline),
                 tooltip: 'Click here to take one',
-                color: _rightAmount <= 0 ? Colors.grey : Colors.black54,
+                color: rightInventory[widget.itemName]  <= 0 ? Colors.grey : Colors.black54,
                 iconSize: 28,
                 // highlightColor: Colors.red[900],
               ),
@@ -85,10 +87,10 @@ class _ExchangeRowState extends State<ExchangeRow> {
                 ),
               ),
               trailing: IconButton(
-                onPressed: _leftAmount <= 0 ? null : incrementRight,
+                onPressed: leftInventory[widget.itemName]  <= 0 ? null : () => incrementRight(widget.itemName),
                 icon: Icon(Icons.add_circle_outline),
                 tooltip: 'Click here to give one',
-                color: _leftAmount <= 0 ? Colors.grey : Colors.black54,
+                color: leftInventory[widget.itemName]  <= 0 ? Colors.grey : Colors.black54,
                 iconSize: 28,
               ),
               dense: true,
@@ -99,7 +101,7 @@ class _ExchangeRowState extends State<ExchangeRow> {
             flex: 1,
             child: Container(
               child: Text(
-                _rightAmount.toString(),
+                rightInventory[widget.itemName].toString(),
                 style: counterTextStyle,
                 textAlign: TextAlign.center,
               ),
