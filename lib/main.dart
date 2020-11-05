@@ -30,22 +30,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final responseJsonInventory1 = {
+    'Shield': 10,
+    'Sword': 2,
+    'Bow': 3,
+    'Arrow': 50,
+  };
+  final responseJsonInventory2 = {
+    'Shield': 1,
+    'Sword': 5,
+    'Bow': 0,
+    'Arrow': 150,
+  };
 
   void _openExchangePage() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ExchangePage()));
+        .push(MaterialPageRoute(builder: (context) => ExchangePage(responseJsonInventory1, responseJsonInventory2)));
   }
 
   void _openInventoryPage() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => InventoryPage()));
+        .push(MaterialPageRoute(builder: (context) => InventoryPage(responseJsonInventory1)));
   }
 
   @override
@@ -65,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              'Welcome',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],

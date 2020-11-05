@@ -3,35 +3,24 @@ import 'package:flutter/material.dart';
 import './inventoryRow.dart';
 
 class InventoryPage extends StatelessWidget {
+  final Map<String, int> inventory;
+
+  InventoryPage(this.inventory);
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> rows = [];
+    inventory.forEach((key, value) {
+      rows.add(InventoryRow(itemName: key, itemAmount: value, itemImage: 'random',));
+    });
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Inventory'),
       ),
       body: Column(
-        children: [
-          InventoryRow(
-            itemName: 'Sword',
-            itemAmount: 10,
-            itemImage: 'sword.png'
-          ),
-          InventoryRow(
-              itemName: 'Shield',
-              itemAmount: 5,
-              itemImage: 'shield.png'
-          ),
-          InventoryRow(
-              itemName: 'Bow',
-              itemAmount: 1,
-              itemImage: 'bow.png'
-          ),
-          InventoryRow(
-              itemName: 'Arrows',
-              itemAmount: 80,
-              itemImage: 'arrow.png'
-          ),
-        ],
+        children: rows
       ),
 
     );
