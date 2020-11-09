@@ -20,7 +20,6 @@ class InventoryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        color: Colors.black12,
         child: ListTile(
           leading: FlutterLogo(size: 56.0),
           title: Text(itemName, style: itemTextStyle),
