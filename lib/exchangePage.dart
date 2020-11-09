@@ -25,10 +25,10 @@ class ExchangePage extends StatelessWidget {
     this.leftInventory = new Map<String, int>.from(this.initialLeftInventory);
   }
 
-  void _generateRequestedMaterial(){
+  void _generateRequestedMaterial() {
     requestedItems = {};
     leftInventory.forEach((key, value) {
-      if(value != initialLeftInventory[key]){
+      if (value != initialLeftInventory[key]) {
         requestedItems[key] = value - initialLeftInventory[key];
       }
     });

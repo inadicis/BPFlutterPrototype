@@ -1,6 +1,9 @@
 import 'package:dps_exchange/exchangePage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './inventoryPage.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import './centerPage.dart';
 
 class HomeRoute extends StatefulWidget {
   final String title;
@@ -12,18 +15,14 @@ class HomeRoute extends StatefulWidget {
 
 class _HomeRouteState extends State<HomeRoute> {
   PageController _pageController;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+  var mainStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
+  var subtitleStyle = TextStyle(
+    fontSize: 12,
+    fontStyle: FontStyle.italic,
+  );
 
   final responseJsonInventory1 = {
     'Shield': 10,
@@ -37,6 +36,20 @@ class _HomeRouteState extends State<HomeRoute> {
     'Bow': 0,
     'Arrow': 150,
   };
+
+  final qrCodeData = 'www.dps.training';
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 1);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void _openExchangePage() {
     Navigator.of(context).push(MaterialPageRoute(
@@ -62,22 +75,27 @@ class _HomeRouteState extends State<HomeRoute> {
         controller: _pageController,
         children: [
           Container(
-            color: Colors.white,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_pageController.hasClients) {
-                    _pageController.animateToPage(
-                      1,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeInOut,
-                    );
-                  }
-                },
-                child: Text('Next'),
-              ),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'This is your personal QR Code.',
+                  style: mainStyle,
+                ),
+                Text(
+                  'Let another helper scan this code to begin the exchange',
+                  style: subtitleStyle,
+                ),
+                QrImage(
+                  data: qrCodeData,
+                  version: QrVersions.auto,
+                  size: 400.0,
+                ),
+              ],
             ),
           ),
+          CenterPage(_pageController),
           Container(
             color: Colors.blue,
             child: Center(
@@ -91,7 +109,7 @@ class _HomeRouteState extends State<HomeRoute> {
                 onPressed: () {
                   if (_pageController.hasClients) {
                     _pageController.animateToPage(
-                      0,
+                      1,
                       duration: const Duration(milliseconds: 400),
                       curve: Curves.easeInOut,
                     );

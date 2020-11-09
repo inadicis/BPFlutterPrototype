@@ -48,7 +48,6 @@ class _ExchangeRowState extends State<ExchangeRow> {
     rightInventory ??= widget.rightInventory;
     leftInventory ??= widget.leftInventory;
 
-
     return Container(
       width: double.infinity,
       color: Colors.black12,
@@ -72,10 +71,14 @@ class _ExchangeRowState extends State<ExchangeRow> {
             flex: 5,
             child: ListTile(
               leading: IconButton(
-                onPressed: rightInventory[widget.itemName] <= 0 ? null : () => incrementLeft(widget.itemName),
+                onPressed: rightInventory[widget.itemName] <= 0
+                    ? null
+                    : () => incrementLeft(widget.itemName),
                 icon: Icon(Icons.add_circle_outline),
                 tooltip: 'Click here to take one',
-                color: rightInventory[widget.itemName]  <= 0 ? Colors.grey : Colors.black54,
+                color: rightInventory[widget.itemName] <= 0
+                    ? Colors.grey
+                    : Colors.black54,
                 iconSize: 28,
                 // highlightColor: Colors.red[900],
               ),
@@ -87,10 +90,14 @@ class _ExchangeRowState extends State<ExchangeRow> {
                 ),
               ),
               trailing: IconButton(
-                onPressed: leftInventory[widget.itemName]  <= 0 ? null : () => incrementRight(widget.itemName),
+                onPressed: leftInventory[widget.itemName] <= 0
+                    ? null
+                    : () => incrementRight(widget.itemName),
                 icon: Icon(Icons.add_circle_outline),
                 tooltip: 'Click here to give one',
-                color: leftInventory[widget.itemName]  <= 0 ? Colors.grey : Colors.black54,
+                color: leftInventory[widget.itemName] <= 0
+                    ? Colors.grey
+                    : Colors.black54,
                 iconSize: 28,
               ),
               dense: true,

@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeRoute(title: 'DPS Prototype',),
+      home: HomeRoute(
+        title: 'DPS Prototype',
+      ),
     );
   }
 }
