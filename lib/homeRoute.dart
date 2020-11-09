@@ -2,8 +2,8 @@ import 'package:dps_exchange/exchangePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './inventoryPage.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import './centerPage.dart';
+import 'qrCodePage.dart';
 
 class HomeRoute extends StatefulWidget {
   final String title;
@@ -15,14 +15,7 @@ class HomeRoute extends StatefulWidget {
 
 class _HomeRouteState extends State<HomeRoute> {
   PageController _pageController;
-  var mainStyle = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-  );
-  var subtitleStyle = TextStyle(
-    fontSize: 12,
-    fontStyle: FontStyle.italic,
-  );
+  int _currentPage = 1;
 
   final responseJsonInventory1 = {
     'Shield': 10,
@@ -57,9 +50,32 @@ class _HomeRouteState extends State<HomeRoute> {
             ExchangePage(responseJsonInventory1, responseJsonInventory2)));
   }
 
-  void _openInventoryPage() {
+  /* void _openInventoryPage() {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => InventoryPage(responseJsonInventory1)));
+  }*/
+
+  void _swipeToPage(int pageIndex) {
+    if (_pageController.hasClients) {
+      _pageController.animateToPage(
+        pageIndex,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+      setState(() {
+        _currentPage = pageIndex;
+      });
+    }
+  }
+
+  void _openHelpPage() {
+    //TODO
+  }
+
+  void _updateIndex(int index){
+    setState(() {
+      _currentPage = index;
+    });
   }
 
   @override
@@ -67,64 +83,32 @@ class _HomeRouteState extends State<HomeRoute> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: [
-          IconButton(icon: Icon(Icons.inventory), onPressed: _openInventoryPage)
-        ],
+        actions: [IconButton(icon: Icon(Icons.help), onPressed: _openHelpPage)],
       ),
       body: PageView(
+        onPageChanged: _updateIndex,
         controller: _pageController,
         children: [
-          Container(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'This is your personal QR Code.',
-                  style: mainStyle,
-                ),
-                Text(
-                  'Let another helper scan this code to begin the exchange',
-                  style: subtitleStyle,
-                ),
-                QrImage(
-                  data: qrCodeData,
-                  version: QrVersions.auto,
-                  size: 400.0,
-                ),
-              ],
-            ),
-          ),
+          QRCodePage(qrCodeData),
           CenterPage(_pageController),
-          Container(
-            color: Colors.blue,
-            child: Center(
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith(
-                      (states) => Colors.white),
-                  foregroundColor: MaterialStateProperty.resolveWith(
-                      (states) => Colors.blue),
-                ),
-                onPressed: () {
-                  if (_pageController.hasClients) {
-                    _pageController.animateToPage(
-                      1,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeInOut,
-                    );
-                  }
-                },
-                child: Text('Previous'),
-              ),
-            ),
-          ),
+          InventoryPage(responseJsonInventory1)
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _openExchangePage,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        tooltip: 'Open items exchange page',
+        child: Icon(Icons.compare_arrows),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentPage,
+        onTap: _swipeToPage,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: 'QR'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.camera_alt), label: 'Scanner'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.backpack), label: 'Inventory'),
+        ],
       ),
     );
   }

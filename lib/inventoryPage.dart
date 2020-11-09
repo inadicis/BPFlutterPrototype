@@ -18,11 +18,6 @@ class InventoryPage extends StatelessWidget {
       ));
     });
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Inventory'),
-      ),
-      body: Column(children: rows),
-    );
+    return Column(children: rows);
   }
 }
