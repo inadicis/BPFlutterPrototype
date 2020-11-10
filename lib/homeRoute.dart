@@ -98,7 +98,7 @@ class _HomeRouteState extends State<HomeRoute> {
           ),
           Positioned(
             child: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: Colors.black12,),
+              icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).highlightColor,),
               onPressed: () {
                 if (_pageController.hasClients) {
                   _pageController.animateToPage(
@@ -114,7 +114,7 @@ class _HomeRouteState extends State<HomeRoute> {
           ),
           Positioned(
             child: IconButton(
-              icon: Icon(Icons.arrow_forward_ios, color: Colors.black12),
+              icon: Icon(Icons.arrow_forward_ios, color: Theme.of(context).highlightColor,),
               onPressed: () {
                 if (_pageController.hasClients) {
                   _pageController.animateToPage(

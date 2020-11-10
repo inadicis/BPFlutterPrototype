@@ -20,11 +20,6 @@ class _ExchangeRowState extends State<ExchangeRow> {
   Map<String, int> leftInventory;
   Map<String, int> rightInventory;
 
-  final counterTextStyle = TextStyle(
-      fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black54);
-  final itemTextStyle = TextStyle(
-      fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black54);
-
   void incrementRight(String key) {
     setState(() {
       if (leftInventory[key] > 0) {
@@ -61,7 +56,7 @@ class _ExchangeRowState extends State<ExchangeRow> {
             child: Container(
               child: Text(
                 leftInventory[widget.itemName].toString(),
-                style: counterTextStyle,
+                style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),
               margin: EdgeInsets.only(left: 10),
@@ -72,32 +67,32 @@ class _ExchangeRowState extends State<ExchangeRow> {
             child: ListTile(
               leading: IconButton(
                 onPressed: rightInventory[widget.itemName] <= 0
-                    ? null
+                    ? () => {}
                     : () => incrementLeft(widget.itemName),
                 icon: Icon(Icons.add_circle_outline),
                 tooltip: 'Click here to take one',
                 color: rightInventory[widget.itemName] <= 0
-                    ? Colors.grey
-                    : Colors.black54,
+                    ? Theme.of(context).shadowColor
+                    : Theme.of(context).highlightColor,
                 iconSize: 28,
                 // highlightColor: Colors.red[900],
               ),
               title: Container(
                 child: Text(
                   widget.itemName,
-                  style: itemTextStyle,
+                  style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.center,
                 ),
               ),
               trailing: IconButton(
                 onPressed: leftInventory[widget.itemName] <= 0
-                    ? null
+                    ? () => {}
                     : () => incrementRight(widget.itemName),
                 icon: Icon(Icons.add_circle_outline),
                 tooltip: 'Click here to give one',
                 color: leftInventory[widget.itemName] <= 0
-                    ? Colors.grey
-                    : Colors.black54,
+                    ? Theme.of(context).shadowColor
+                    : Theme.of(context).highlightColor,
                 iconSize: 28,
               ),
               dense: true,
@@ -109,7 +104,7 @@ class _ExchangeRowState extends State<ExchangeRow> {
             child: Container(
               child: Text(
                 rightInventory[widget.itemName].toString(),
-                style: counterTextStyle,
+                style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),
               margin: EdgeInsets.only(right: 10),

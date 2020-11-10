@@ -30,10 +30,13 @@ class QRCodePage extends StatelessWidget {
             'Let another helper scan this code to begin the exchange',
             style: subtitleStyle,
           ),
-          QrImage(
-            data: _qrCodeData,
-            version: QrVersions.auto,
-            size: 400.0,
+          Container(
+            color: Theme.of(context).primaryColorLight,
+            child: QrImage(
+              data: _qrCodeData,
+              version: QrVersions.auto,
+              size: 400.0,
+            ),
           ),
         ],
       ),

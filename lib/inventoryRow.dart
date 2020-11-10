@@ -22,8 +22,8 @@ class InventoryRow extends StatelessWidget {
         width: double.infinity,
         child: ListTile(
           leading: FlutterLogo(size: 56.0),
-          title: Text(itemName, style: itemTextStyle),
-          trailing: Text('$itemAmount', style: counterTextStyle),
+          title: Text(itemName, style: Theme.of(context).textTheme.headline6),
+          trailing: Text('$itemAmount', style: Theme.of(context).textTheme.headline6),
         ));
   }
 }
