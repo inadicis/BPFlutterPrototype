@@ -72,7 +72,7 @@ class _HomeRouteState extends State<HomeRoute> {
     //TODO
   }
 
-  void _updateIndex(int index){
+  void _updateIndex(int index) {
     setState(() {
       _currentPage = index;
     });
@@ -85,13 +85,49 @@ class _HomeRouteState extends State<HomeRoute> {
         title: Text(widget.title),
         actions: [IconButton(icon: Icon(Icons.help), onPressed: _openHelpPage)],
       ),
-      body: PageView(
-        onPageChanged: _updateIndex,
-        controller: _pageController,
+      body: Stack(
         children: [
-          QRCodePage(qrCodeData),
-          CenterPage(_pageController),
-          InventoryPage(responseJsonInventory1)
+          PageView(
+            onPageChanged: _updateIndex,
+            controller: _pageController,
+            children: [
+              QRCodePage(qrCodeData),
+              CenterPage(),
+              InventoryPage(responseJsonInventory1)
+            ],
+          ),
+          Positioned(
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios, color: Colors.black12,),
+              onPressed: () {
+                if (_pageController.hasClients) {
+                  _pageController.animateToPage(
+                    _currentPage - 1,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+            ),
+            bottom: 300,
+            left: 5,
+          ),
+          Positioned(
+            child: IconButton(
+              icon: Icon(Icons.arrow_forward_ios, color: Colors.black12),
+              onPressed: () {
+                if (_pageController.hasClients) {
+                  _pageController.animateToPage(
+                    _currentPage + 1,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+            ),
+            bottom: 300,
+            right: 5,
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
